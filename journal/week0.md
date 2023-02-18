@@ -104,6 +104,6 @@ aws budgets create-budget \
 ## Recreated Logical Architectural Diagram
 
 I recreated the logical architecture diagram for the Cruddur project.
-![Cruddur Logical Design](assets/Logical-Architecture.png)
+![Cruddur Logical Design](_docs/assets/Logical-Architecture.png)
 
 [Lucid Charts Link](https://lucid.app/lucidchart/e221693a-21ad-4d1f-b3d5-244a7ec82928/edit?viewport_loc=142%2C-219%2C1820%2C901%2CR01soSDRiqq8&invitationId=inv_11ea1ea9-36cd-41c5-97ae-a7c7f9fdfc82)
