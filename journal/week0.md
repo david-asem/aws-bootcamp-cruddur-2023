@@ -18,6 +18,7 @@ tasks:
 ```
 
 ### Create a new User and Generate AWS Credentials
+I created a new Admin user accout for myself by following the steps below:
 
 - Go to your AWS console and create a new user
 - `Enable console access` for the user
@@ -27,14 +28,14 @@ tasks:
 - Choose AWS CLI Access
 - Download the CSV with the credentials
 
-You need to set these credentials for the current bash terminal in gitpod
+I needed to set these credentials for the bash terminal in my gitpod workspace
 ```
 export AWS_ACCESS_KEY_ID=""
 export AWS_SECRET_ACCESS_KEY=""
 export AWS_DEFAULT_REGION=us-east-1
 ```
 
-Then you must let gitpod remember these credentials so any time you return to your workspace, gitpod will use the same credentials.
+Then I had to let gitpod remember these credentials so any time I returned to my workspace, gitpod will use the same credentials.
 ``
 gp env AWS_ACCESS_KEY_ID=""
 gp env AWS_SECRET_ACCESS_KEY=""
@@ -43,29 +44,27 @@ gp env AWS_DEFAULT_REGION=us-east-1
 
 ## Enable Billing 
 
-We need to turn on Billing Alerts to recieve alerts...
+I turned on Billing Alerts to recieve alerts...
 
 
-- In your Root Account go to the [Billing Page](https://console.aws.amazon.com/billing/)
-- Under `Billing Preferences` Choose `Receive Billing Alerts`
-- Save Preferences
+- In my Root Account I did [Billing Page](https://console.aws.amazon.com/billing/)
+- Under `Billing Preferences` I Chose `Receive Billing Alerts`
+- I Saved the Preferences
 
 
 ## Creating a Billing Alarm
 
 ### Create SNS Topic
 
-- We need an SNS topic before we create an alarm.
-- The SNS topic is what will delivery us an alert when we get overbilled
-- [aws sns create-topic](https://docs.aws.amazon.com/cli/latest/reference/sns/create-topic.html)
+- I needed an SNS topic before I could create an alarm.
 
-We'll create a SNS Topic
+I'll create a SNS Topic
 ```sh
 aws sns create-topic --name billing-alarm
 ```
 which will return a TopicARN
 
-Create a subscription supply the TopicARN and our Email
+I created a subscription to supply the TopicARN and my Email
 ```sh
 aws sns subscribe \
     --topic-arn TopicARN \
@@ -73,14 +72,11 @@ aws sns subscribe \
     --notification-endpoint your@email.com
 ```
 
-Check your email and confirm the subscription
-
 #### Create Alarm
 
 - [aws cloudwatch put-metric-alarm](https://docs.aws.amazon.com/cli/latest/reference/cloudwatch/put-metric-alarm.html)
 - [Create an Alarm via AWS CLI](https://aws.amazon.com/premiumsupport/knowledge-center/cloudwatch-estimatedcharges-alarm/)
-- We need to update the configuration json script with the TopicARN we generated earlier
-- We are just a json file because --metrics is is required for expressions and so its easier to us a JSON file.
+- I updated the configuration json script with the TopicARN I generated earlier
 
 ```sh
 aws cloudwatch put-metric-alarm --cli-input-json file://aws/json/alarm_config.json
@@ -90,14 +86,13 @@ aws cloudwatch put-metric-alarm --cli-input-json file://aws/json/alarm_config.js
 
 [aws budgets create-budget](https://docs.aws.amazon.com/cli/latest/reference/budgets/create-budget.html)
 
-Get your AWS Account ID
+I used the command below to get my AWS Account ID
 ```sh
 aws sts get-caller-identity --query Account --output text
 ```
 
-- Supply your AWS Account ID
+- Supply my AWS Account ID
 - Update the json files
-- This is another case with AWS CLI its just much easier to json files due to lots of nested json
 
 ```sh
 aws budgets create-budget \
@@ -105,3 +100,10 @@ aws budgets create-budget \
     --budget file://aws/json/budget.json \
     --notifications-with-subscribers file://aws/json/budget-notifications-with-subscribers.json
 ```
+
+## Recreated Logical Architectural Diagram
+
+I recreated the logical architecture diagram for the Cruddur project.
+![Cruddur Logical Design](Week 0 - Logical Architecture.png)
+
+[Lucid Charts Link](https://lucid.app/lucidchart/e221693a-21ad-4d1f-b3d5-244a7ec82928/edit?viewport_loc=142%2C-219%2C1820%2C901%2CR01soSDRiqq8&invitationId=inv_11ea1ea9-36cd-41c5-97ae-a7c7f9fdfc82)
